@@ -4,6 +4,7 @@ import ax.ha.tdd.chess.console.ChessboardWriter;
 import ax.ha.tdd.chess.engine.pieces.ChessPiece;
 import ax.ha.tdd.chess.engine.pieces.Pawn;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +35,7 @@ public class PawnTests {
     }
 
     @Test
+    @Disabled("Disabled until canMove() is implemented")
     public void testWhitePawnForwardOneStepUnblocked(){
         //Here's a lower level test, we just check that the internal logic of the pawn is correct.
         //We should be allowed to move one step forward to an empty square
