@@ -4,10 +4,10 @@ import ax.ha.tdd.chess.console.ChessboardWriter;
 import ax.ha.tdd.chess.engine.pieces.ChessPiece;
 import ax.ha.tdd.chess.engine.pieces.Pawn;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PawnTests {
@@ -35,12 +35,57 @@ public class PawnTests {
     }
 
     @Test
-    @Disabled("Disabled until canMove() is implemented")
+    public void testMoveTwoSquareAtStartShouldBeLegal() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn e2 = new Pawn(Player.WHITE, new Square("e2"));
+        assertTrue(e2.canMove(chessboard, new Square("e4")));
+    }
+
+    @Test
+    public void testMoveTwoSquaresNotAtStartShouldBeIllegal() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn c3 = new Pawn(Player.WHITE, new Square("c3"));
+        assertFalse(c3.canMove(chessboard, new Square("c5")));
+    }
+
+    @Test
     public void testWhitePawnForwardOneStepUnblocked(){
-        //Here's a lower level test, we just check that the internal logic of the pawn is correct.
-        //We should be allowed to move one step forward to an empty square
         Chessboard chessboard = new ChessboardImpl();
         Pawn e2 = new Pawn(Player.WHITE, new Square("e2"));
         assertTrue(e2.canMove(chessboard, new Square("e3")));
+    }
+
+    @Test
+    public void testBlackPawnForwardOneStepUnblocked() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn e7 = new Pawn(Player.BLACK, new Square("e7"));
+        assertTrue(e7.canMove(chessboard, new Square("e6")));
+    }
+
+    @Test
+    public void testWhitePawnForwardOneStepBlocked() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn e2 = new Pawn(Player.WHITE, new Square("e2"));
+        Pawn e3 = new Pawn(Player.BLACK, new Square("e3"));
+        chessboard.addPiece(e2);
+        chessboard.addPiece(e3);
+        assertFalse(e2.canMove(chessboard, new Square("e3")));
+    }
+
+    @Test
+    public void testWhitePawnEatBlackPawn() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn e4 = new Pawn(Player.WHITE, new Square("e4"));
+        Pawn d5 = new Pawn(Player.BLACK, new Square("d5"));
+        chessboard.addPiece(e4);
+        chessboard.addPiece(d5);
+        assertTrue(e4.canMove(chessboard, new Square("d5")));
+    }
+
+    @Test
+    public void testMoveDiagonallyToEmptySquareShouldBeIllegal() {
+        Chessboard chessboard = new ChessboardImpl();
+        Pawn c3 = new Pawn(Player.WHITE, new Square("c3"));
+        assertFalse(c3.canMove(chessboard, new Square("d4")));
     }
 }

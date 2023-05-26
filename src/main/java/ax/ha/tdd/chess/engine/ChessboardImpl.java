@@ -27,16 +27,23 @@ public class ChessboardImpl implements Chessboard {
         return chessboard;
     }
 
-    public ChessPiece getPieceAt(final Square square) {
-        return board[square.getY()][square.getX()];
+    @Override
+    public ChessPiece getPieceAt(final int x, final int y) {
+        return board[y][x];
     }
 
+    @Override
+    public ChessPiece getPieceAt(final Square square) {
+        return getPieceAt(square.getX(), square.getY());
+    }
+
+    @Override
     public void addPiece(final ChessPiece chessPiece) {
         board[chessPiece.getLocation().getY()][chessPiece.getLocation().getX()] = chessPiece;
     }
 
     @Override
-    public void removePieceAt(Square square) {
+    public void removePieceAt(final Square square) {
         //TODO implement
     }
 

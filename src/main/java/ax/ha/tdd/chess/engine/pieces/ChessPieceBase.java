@@ -13,7 +13,7 @@ public abstract class ChessPieceBase implements ChessPiece {
 
     protected Square location;
 
-    public ChessPieceBase(PieceType pieceType, final Player player,
+    public ChessPieceBase(final PieceType pieceType, final Player player,
                           final Square location) {
         this.pieceType = pieceType;
         this.player = player;
@@ -22,7 +22,9 @@ public abstract class ChessPieceBase implements ChessPiece {
 
     public abstract String getSymbol();
 
-    public PieceType getPieceType() { return pieceType; }
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 
     public Player getPlayer() {
         return player;
@@ -32,6 +34,15 @@ public abstract class ChessPieceBase implements ChessPiece {
         return location;
     }
 
+    @Override
+    public int getDirectionMultiplier() {
+        return player == Player.BLACK ? 1 : -1;
+    }
+
+    /**
+     * @return true if piece is still on the starting square
+     */
+    public abstract boolean startingLocation();
 
     /**
      * Suggestion of design:
@@ -46,7 +57,7 @@ public abstract class ChessPieceBase implements ChessPiece {
     public abstract boolean canMove(final Chessboard chessboard, final Square destination);
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ChessPieceBase that = (ChessPieceBase) o;
