@@ -30,6 +30,27 @@ public final class ChessPieceMovingUtils {
         return true;
     }
 
+    public static boolean isDiagonalClear(final Chessboard chessboard, final Square destination, final Square location) {
+
+        // Piece is not moving diagonal
+        if (Math.abs(location.getX() - destination.getX()) != Math.abs(location.getY()) - destination.getY()) {
+            return false;
+        }
+
+        final int dx = Integer.compare(destination.getX(), location.getX());
+        final int dy = Integer.compare(destination.getY(), location.getY());
+
+        // Scan through each cell between the current location and the destination
+        for (int x = location.getX() + dx, y = location.getY() + dy; x != destination.getX() && y != destination.getY(); x += dx, y += dy) {
+            // Piece in the path
+            if (chessboard.getPieceAt(x, y) != null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static boolean KnightJump(final Square destination, final Square location) {
         final int dx = Math.abs(location.getX() - destination.getX());
         final int dy = Math.abs(location.getY() - destination.getY());
