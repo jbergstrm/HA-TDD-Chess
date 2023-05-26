@@ -16,12 +16,6 @@ public class Pawn extends ChessPieceBase implements ChessPiece {
     }
 
     @Override
-    public boolean startingLocation() {
-        return ((location.getY() == 1 && player == Player.BLACK)
-                || (location.getY() == 6 && player == Player.WHITE));
-    }
-
-    @Override
     public boolean canMove(final Chessboard chessboard, final Square destination) {
 
         final ChessPiece chessPiece = chessboard.getPieceAt(destination);
@@ -50,5 +44,10 @@ public class Pawn extends ChessPieceBase implements ChessPiece {
 
         // None of the conditions met
         return false;
+    }
+
+    private boolean startingLocation() {
+        return ((location.getY() == 1 && player == Player.BLACK)
+                || (location.getY() == 6 && player == Player.WHITE));
     }
 }

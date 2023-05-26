@@ -24,7 +24,5 @@ public interface ChessPiece {
 
     int getDirectionMultiplier();
 
-    boolean startingLocation();
-
     boolean canMove(Chessboard chessboard, Square destination);
 }

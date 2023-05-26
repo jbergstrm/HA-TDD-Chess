@@ -28,11 +28,6 @@ public class ChessPieceStub extends ChessPieceBase {
     }
 
     @Override
-    public boolean startingLocation() {
-        throw new UnsupportedOperationException("startingLocation has/will not be implemented in stub class");
-    }
-
-    @Override
     public boolean canMove(Chessboard chessboard, Square destination) {
         throw new UnsupportedOperationException("canMove has/will not be implemented in stub class");
     }

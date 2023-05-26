@@ -40,11 +40,6 @@ public abstract class ChessPieceBase implements ChessPiece {
     }
 
     /**
-     * @return true if piece is still on the starting square
-     */
-    public abstract boolean startingLocation();
-
-    /**
      * Suggestion of design:
      * Checks if the chessPiece can move to a certain destination.
      * I preferred to keep this logic tightly coupled to the pieces instead of the board,

@@ -9,10 +9,10 @@ import ax.ha.tdd.chess.engine.Square;
  *
  * @author Joakim Bergström
  */
-public class Rook extends ChessPieceBase implements ChessPiece {
+public class Knight extends ChessPieceBase implements ChessPiece {
 
-    public Rook(final Player player, final Square location) {
-        super(PieceType.ROOK, player, location);
+    public Knight(final Player player, final Square location) {
+        super(PieceType.KNIGHT, player, location);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Rook extends ChessPieceBase implements ChessPiece {
 
         // Destination is unoccupied or contains a piece of different color
         if (chessPiece == null || chessPiece.getPlayer() != player) {
-            return ChessPieceMovingUtils.isStraightLineClear(chessboard, destination, location);
+            return ChessPieceMovingUtils.KnightJump(destination, location);
         }
 
         // None of the conditions met

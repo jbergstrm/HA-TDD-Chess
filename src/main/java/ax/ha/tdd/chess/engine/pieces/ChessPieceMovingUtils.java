@@ -29,4 +29,12 @@ public final class ChessPieceMovingUtils {
 
         return true;
     }
+
+    public static boolean KnightJump(final Square destination, final Square location) {
+        final int dx = Math.abs(location.getX() - destination.getX());
+        final int dy = Math.abs(location.getY() - destination.getY());
+
+        // Shape: two squares in one direction and one square in the other
+        return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+    }
 }
