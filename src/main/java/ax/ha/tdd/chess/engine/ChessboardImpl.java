@@ -44,7 +44,7 @@ public class ChessboardImpl implements Chessboard {
 
     @Override
     public void removePieceAt(final Square square) {
-        //TODO implement
+        board[square.getY()][square.getX()] = null;
     }
 
     @Override

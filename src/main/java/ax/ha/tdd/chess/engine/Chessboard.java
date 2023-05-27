@@ -10,7 +10,6 @@ public interface Chessboard extends Iterable<ChessPiece[]>{
 
     void addPiece(ChessPiece chessPiece);
 
-    //If you prefer, modify this to use a location instead.
     void removePieceAt(Square square);
 
     /**
