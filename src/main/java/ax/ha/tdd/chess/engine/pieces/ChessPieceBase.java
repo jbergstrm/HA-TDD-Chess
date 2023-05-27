@@ -12,6 +12,7 @@ public abstract class ChessPieceBase implements ChessPiece {
     protected final PieceType pieceType;
 
     protected Square location;
+    protected boolean isMoved;
 
     public ChessPieceBase(final PieceType pieceType, final Player player,
                           final Square location) {
@@ -20,18 +21,32 @@ public abstract class ChessPieceBase implements ChessPiece {
         this.location = location;
     }
 
+    @Override
     public abstract String getSymbol();
 
+    @Override
     public PieceType getPieceType() {
         return pieceType;
     }
 
+    @Override
     public Player getPlayer() {
         return player;
     }
 
+    @Override
     public Square getLocation() {
         return location;
+    }
+
+    @Override
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    @Override
+    public void isMoved(final boolean isMoved) {
+        this.isMoved = isMoved;
     }
 
     @Override
@@ -49,6 +64,7 @@ public abstract class ChessPieceBase implements ChessPiece {
      * @param destination destination
      * @return true if piece can move to the destination
      */
+    @Override
     public abstract boolean canMove(final Chessboard chessboard, final Square destination);
 
     @Override

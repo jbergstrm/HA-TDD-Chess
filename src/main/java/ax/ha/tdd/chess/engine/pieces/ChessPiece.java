@@ -22,6 +22,19 @@ public interface ChessPiece {
 
     Square getLocation();
 
+    /**
+     * True if piece has been moved
+     */
+    boolean isMoved();
+
+    /**
+     * Sets to true when piece is moved for the first time
+     */
+    void isMoved(boolean isMoved);
+
+    /**
+     * Multiplier for direction 1 or -1
+     */
     int getDirectionMultiplier();
 
     boolean canMove(Chessboard chessboard, Square destination);

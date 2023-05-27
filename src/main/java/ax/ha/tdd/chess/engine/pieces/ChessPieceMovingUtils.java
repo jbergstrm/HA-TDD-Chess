@@ -3,6 +3,8 @@ package ax.ha.tdd.chess.engine.pieces;
 import ax.ha.tdd.chess.engine.Chessboard;
 import ax.ha.tdd.chess.engine.Player;
 import ax.ha.tdd.chess.engine.Square;
+import ax.ha.tdd.chess.engine.pieces.impl.King;
+import ax.ha.tdd.chess.engine.pieces.impl.Rook;
 
 import java.util.Arrays;
 
@@ -66,6 +68,21 @@ public final class ChessPieceMovingUtils {
 
         // Shape: two squares in one direction and one square in the other
         return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+    }
+
+    public static boolean kingCastling(final Chessboard chessboard, final King king, final Rook rook) {
+
+        if (king.isMoved() || rook.isMoved()
+                || isThreatened(chessboard, king.getLocation(), king.getPlayer())
+                || isThreatened(chessboard, rook.getLocation(), rook.getPlayer())) {
+            return false;
+        }
+
+        final int[] range = king.getLocation().getX() == 4
+                ? new int[]{5, 6} : new int[]{1, 2, 3};
+
+        return Arrays.stream(range).noneMatch(x -> isThreatened(chessboard, new Square(x, king.getLocation().getY()), king.getPlayer()))
+                && Arrays.stream(range).allMatch(x -> chessboard.getPieceAt(x, king.getLocation().getY()) == null);
     }
 
     public static boolean isThreatened(final Chessboard chessboard, final Square location, final Player player) {
