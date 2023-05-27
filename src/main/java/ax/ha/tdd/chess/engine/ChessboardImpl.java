@@ -5,8 +5,10 @@ import ax.ha.tdd.chess.engine.pieces.ChessPieceBase;
 import ax.ha.tdd.chess.engine.pieces.ChessPieceStub;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ChessboardImpl implements Chessboard {
     // This could just as easily be replaced with a List or Set,
@@ -35,6 +37,18 @@ public class ChessboardImpl implements Chessboard {
     @Override
     public ChessPiece getPieceAt(final Square square) {
         return getPieceAt(square.getX(), square.getY());
+    }
+
+    @Override
+    public Square getPieceLocation(final PieceType pieceType, final Player player) {
+        return Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(Objects::nonNull)
+                .filter(chessPiece -> chessPiece.getPieceType() == pieceType)
+                .filter(chessPiece -> chessPiece.getPlayer() == player)
+                .map(ChessPiece::getLocation)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

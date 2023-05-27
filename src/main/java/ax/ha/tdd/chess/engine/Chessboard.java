@@ -1,12 +1,15 @@
 package ax.ha.tdd.chess.engine;
 
 import ax.ha.tdd.chess.engine.pieces.ChessPiece;
+import ax.ha.tdd.chess.engine.pieces.PieceType;
 
 public interface Chessboard extends Iterable<ChessPiece[]>{
 
     ChessPiece getPieceAt(int x, int y);
 
     ChessPiece getPieceAt(Square square);
+
+    Square getPieceLocation(PieceType pieceType, Player player);
 
     void addPiece(ChessPiece chessPiece);
 
