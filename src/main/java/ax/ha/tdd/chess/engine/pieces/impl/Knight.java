@@ -26,15 +26,7 @@ public class Knight extends ChessPieceBase implements ChessPiece {
 
     @Override
     public boolean canMove(final Chessboard chessboard, final Square destination) {
-
-        final ChessPiece chessPiece = chessboard.getPieceAt(destination);
-
-        // Destination is unoccupied or contains a piece of different color
-        if (chessPiece == null || chessPiece.getPlayer() != player) {
-            return ChessPieceMovingUtils.KnightJump(destination, location);
-        }
-
-        // None of the conditions met
-        return false;
+        return chessboard.isValidSquare(destination, player)
+                && ChessPieceMovingUtils.knightJump(destination, location);
     }
 }

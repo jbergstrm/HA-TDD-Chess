@@ -26,16 +26,8 @@ public class Queen extends ChessPieceBase implements ChessPiece {
 
     @Override
     public boolean canMove(final Chessboard chessboard, final Square destination) {
-
-        final ChessPiece chessPiece = chessboard.getPieceAt(destination);
-
-        // Destination is unoccupied or contains a piece of different color
-        if (chessPiece == null || chessPiece.getPlayer() != player) {
-            return ChessPieceMovingUtils.isDiagonalClear(chessboard, destination, location)
-                    || ChessPieceMovingUtils.isStraightLineClear(chessboard, destination, location);
-        }
-
-        // None of the conditions met
-        return false;
+        return chessboard.isValidSquare(destination, player)
+                && (ChessPieceMovingUtils.isDiagonalClear(chessboard, destination, location)
+                || ChessPieceMovingUtils.isStraightLineClear(chessboard, destination, location));
     }
 }

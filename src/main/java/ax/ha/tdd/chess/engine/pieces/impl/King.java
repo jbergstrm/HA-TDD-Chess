@@ -13,10 +13,10 @@ import ax.ha.tdd.chess.engine.pieces.PieceType;
  *
  * @author Joakim Bergström
  */
-public class Bishop extends ChessPieceBase implements ChessPiece {
+public class King extends ChessPieceBase implements ChessPiece {
 
-    public Bishop(final Player player, Square location) {
-        super(PieceType.BISHOP, player, location);
+    public King(final Player player, final Square location) {
+        super(PieceType.KING, player, location);
     }
 
     @Override
@@ -26,7 +26,13 @@ public class Bishop extends ChessPieceBase implements ChessPiece {
 
     @Override
     public boolean canMove(final Chessboard chessboard, final Square destination) {
-        return chessboard.isValidSquare(destination, player)
-                && ChessPieceMovingUtils.isDiagonalClear(chessboard, destination, location);
+
+        // If move is more than one square
+        if (Math.abs(location.getX() - destination.getX()) > 1 || Math.abs(location.getY() - destination.getY()) > 1) {
+            return false;
+        }
+
+        return !ChessPieceMovingUtils.isThreatened(chessboard, destination, player)
+                && chessboard.isValidSquare(destination, player);
     }
 }

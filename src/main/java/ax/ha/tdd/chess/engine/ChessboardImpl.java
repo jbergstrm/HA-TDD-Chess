@@ -47,6 +47,13 @@ public class ChessboardImpl implements Chessboard {
         //TODO implement
     }
 
+    @Override
+    public boolean isValidSquare(final Square square, final Player player) {
+        final ChessPiece chessPiece = this.getPieceAt(square);
+        return chessPiece == null
+                || (chessPiece.getPieceType() != PieceType.KING && chessPiece.getPlayer() != player);
+    }
+
     /**
      * Helper method to initialize chessboard with {@link ChessPieceStub}.
      * Basically mirrors all added pieces for both players.

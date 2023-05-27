@@ -12,4 +12,13 @@ public interface Chessboard extends Iterable<ChessPiece[]>{
 
     //If you prefer, modify this to use a location instead.
     void removePieceAt(Square square);
+
+    /**
+     * Validates if square is a valid move for the player.
+     *
+     * @param square    The destination square
+     * @param player    The player who initiated the move
+     * @return          True if valid else false
+     */
+    boolean isValidSquare(Square square, Player player);
 }
