@@ -13,6 +13,12 @@ import java.util.Arrays;
  */
 public final class ChessPieceMovingUtils {
 
+    private static final int[][] THREAT_MAP = {
+            {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1},     // Knight
+            {0, 1}, {0, -1}, {1, 0}, {-1, 0},                                           // StraightLine
+            {1, 1}, {1, -1}, {-1, 1}, {-1, -1}                                          // Diagonal
+    };
+
     public static boolean isStraightLineClear(final Chessboard chessboard, final Square destination, final Square location) {
         final int dx = Integer.compare(destination.getX(), location.getX());
         final int dy = Integer.compare(destination.getY(), location.getY());
@@ -63,48 +69,43 @@ public final class ChessPieceMovingUtils {
     }
 
     public static boolean isThreatened(final Chessboard chessboard, final Square location, final Player player) {
-        // Definition of all possible moves
-        final int[][] threatenedMap = {
-                {-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}, // Knight
-                {0, 1}, {0, -1}, {1, 0}, {-1, 0},                                       // Horizontal and vertical
-                {1, 1}, {1, -1}, {-1, 1}, {-1, -1}                                      // Diagonal
-        };
-
-        // Check each direction
-        return Arrays.stream(threatenedMap)
-                .anyMatch(move -> checkDirection(chessboard, location, player, move[0], move[1]));
+        return Arrays.stream(THREAT_MAP)
+                .anyMatch(move -> isThreat(chessboard, location, player, move));
     }
 
-    private static boolean checkDirection(final Chessboard chessboard, final Square location, final Player player, final int dx, final int dy) {
-        int x = location.getX();
-        int y = location.getY();
+    private static boolean isThreat(final Chessboard chessboard, final Square location, final Player player, final int[] move) {
+        return Math.abs(move[0]) == 2 || Math.abs(move[1]) == 2
+                ? isThreatenedByKnight(chessboard, location, player, move)
+                : isThreatenedByDiagonalOrStraightLine(chessboard, location, player, move);
+    }
 
-        while (x >= 0 && x < 8 && y >= 0 && y < 8) {
-            final ChessPiece chessPiece = chessboard.getPieceAt(x, y);
+    private static boolean isThreatenedByDiagonalOrStraightLine(final Chessboard chessboard, final Square location, final Player player, final int[] move) {
+        for (int x = location.getX() + move[0], y = location.getY() + move[1]; x >= 0 && x < 8 && y >= 0 && y < 8; x += move[0], y += move[1]) {
+            final ChessPiece chessPiece = chessboard.getPieceAt(new Square(x, y));
 
             if (chessPiece != null && chessPiece.getPlayer() != player) {
-                final boolean isAdjacent = Math.abs(x - location.getX()) + Math.abs(y - location.getY()) == 1;
-                final boolean isKnightMove = Math.abs(dx) + Math.abs(dy) == 3;
-
-                // True if piece in current spot is a threat
-                if (isKnightMove && chessPiece.getPieceType() == PieceType.KNIGHT
-                        || isAdjacent && chessPiece.getPieceType() == PieceType.KING
-                        || (!isKnightMove && !isAdjacent && (chessPiece.getPieceType() == PieceType.QUEEN))
-                        || (!isKnightMove && !isAdjacent && player == Player.BLACK && chessPiece.getPieceType() == PieceType.PAWN && dy == 1)) {
-                    return true;
-                }
-
-                // Current piece isn't a knight, and we're not checking a knight move, break out of the loop
-                if (!isKnightMove) {
-                    break;
-                }
+                return switch (chessPiece.getPieceType()) {
+                    case KING -> Math.abs(location.getX() - x) <= 1 && Math.abs(location.getY() - y) <= 1;
+                    case PAWN -> ((player == Player.WHITE && move[1] == -1) || (player == Player.BLACK && move[1] == 1)) && Math.abs(location.getX() - x) <= 1 && Math.abs(location.getY() - y) <= 1;
+                    case QUEEN, ROOK, BISHOP -> true;
+                    case KNIGHT -> false;
+                };
             }
-
-            // Move to next spot in current direction
-            x += dx;
-            y += dy;
         }
 
         return false;
+    }
+
+    private static boolean isThreatenedByKnight(final Chessboard chessboard, final Square location, final Player player, final int[] move) {
+        try {
+            final ChessPiece chessPiece = chessboard.getPieceAt(
+                    new Square(location.getX() + move[0], location.getY() + move[1]));
+
+            return chessPiece != null && chessPiece.getPlayer() != player && chessPiece.getPieceType() == PieceType.KNIGHT;
+        }
+        catch (IllegalArgumentException e) {
+            // Threat location is outside the board
+            return false;
+        }
     }
 }
