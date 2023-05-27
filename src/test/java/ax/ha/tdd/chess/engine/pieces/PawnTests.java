@@ -1,9 +1,13 @@
-package ax.ha.tdd.chess.engine;
+package ax.ha.tdd.chess.engine.pieces;
 
 import ax.ha.tdd.chess.console.ChessboardWriter;
-import ax.ha.tdd.chess.engine.pieces.ChessPiece;
-import ax.ha.tdd.chess.engine.pieces.Pawn;
-import ax.ha.tdd.chess.engine.pieces.PieceType;
+import ax.ha.tdd.chess.engine.Chessboard;
+import ax.ha.tdd.chess.engine.ChessboardImpl;
+import ax.ha.tdd.chess.engine.Game;
+import ax.ha.tdd.chess.engine.GameImpl;
+import ax.ha.tdd.chess.engine.Player;
+import ax.ha.tdd.chess.engine.Square;
+import ax.ha.tdd.chess.engine.pieces.impl.Pawn;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

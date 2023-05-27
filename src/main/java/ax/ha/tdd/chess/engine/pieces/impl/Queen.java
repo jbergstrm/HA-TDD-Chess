@@ -1,18 +1,22 @@
-package ax.ha.tdd.chess.engine.pieces;
+package ax.ha.tdd.chess.engine.pieces.impl;
 
 import ax.ha.tdd.chess.engine.Chessboard;
 import ax.ha.tdd.chess.engine.Player;
 import ax.ha.tdd.chess.engine.Square;
+import ax.ha.tdd.chess.engine.pieces.ChessPiece;
+import ax.ha.tdd.chess.engine.pieces.ChessPieceBase;
+import ax.ha.tdd.chess.engine.pieces.ChessPieceMovingUtils;
+import ax.ha.tdd.chess.engine.pieces.PieceType;
 
 /**
  * TODO: What does this class do
  *
  * @author Joakim Bergström
  */
-public class Knight extends ChessPieceBase implements ChessPiece {
+public class Queen extends ChessPieceBase implements ChessPiece {
 
-    public Knight(final Player player, final Square location) {
-        super(PieceType.KNIGHT, player, location);
+    public Queen(final Player player, final Square location) {
+        super(PieceType.QUEEN, player, location);
     }
 
     @Override
@@ -27,7 +31,8 @@ public class Knight extends ChessPieceBase implements ChessPiece {
 
         // Destination is unoccupied or contains a piece of different color
         if (chessPiece == null || chessPiece.getPlayer() != player) {
-            return ChessPieceMovingUtils.KnightJump(destination, location);
+            return ChessPieceMovingUtils.isDiagonalClear(chessboard, destination, location)
+                    || ChessPieceMovingUtils.isStraightLineClear(chessboard, destination, location);
         }
 
         // None of the conditions met

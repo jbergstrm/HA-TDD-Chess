@@ -1,6 +1,10 @@
-package ax.ha.tdd.chess.engine;
+package ax.ha.tdd.chess.engine.pieces;
 
-import ax.ha.tdd.chess.engine.pieces.Rook;
+import ax.ha.tdd.chess.engine.Chessboard;
+import ax.ha.tdd.chess.engine.ChessboardImpl;
+import ax.ha.tdd.chess.engine.Player;
+import ax.ha.tdd.chess.engine.Square;
+import ax.ha.tdd.chess.engine.pieces.impl.Rook;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

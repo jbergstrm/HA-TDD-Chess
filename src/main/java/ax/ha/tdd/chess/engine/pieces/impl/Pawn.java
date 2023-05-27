@@ -1,8 +1,11 @@
-package ax.ha.tdd.chess.engine.pieces;
+package ax.ha.tdd.chess.engine.pieces.impl;
 
 import ax.ha.tdd.chess.engine.Chessboard;
 import ax.ha.tdd.chess.engine.Square;
 import ax.ha.tdd.chess.engine.Player;
+import ax.ha.tdd.chess.engine.pieces.ChessPiece;
+import ax.ha.tdd.chess.engine.pieces.ChessPieceBase;
+import ax.ha.tdd.chess.engine.pieces.PieceType;
 
 public class Pawn extends ChessPieceBase implements ChessPiece {
 
