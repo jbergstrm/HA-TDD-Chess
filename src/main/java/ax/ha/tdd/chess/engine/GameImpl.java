@@ -1,37 +1,96 @@
 package ax.ha.tdd.chess.engine;
 
-public class GameImpl implements Game{
+public class GameImpl implements Game {
 
-    final ChessboardImpl board = ChessboardImpl.startingBoard();
+    private final GameService service;
 
-    //Feel free to delete this stuff. Just for initial testing.
-    boolean isNewGame = true;
+    public GameImpl() {
+        this.service = new GameServiceImpl();
+    }
 
     @Override
     public Player getPlayerToMove() {
-        //TODO this should reflect the current state.
-        return Player.WHITE;
+        return service.getPlayerToMove();
     }
 
     @Override
     public Chessboard getBoard() {
-        return board;
+        return service.getChessboard();
     }
 
     @Override
     public String getLastMoveResult() {
-        //TODO this should be used to show the player what happened
-        //Illegal move, correct move, e2 moved to e4 etc. up to you!
-        if (isNewGame) {
-            return "Game hasn't begun";
+        if (!service.isGameStarted()) {
+            return !service.isMoveSuccessful()
+                    ? String.format("Last move was unsuccessful: %s", service.getLatestMove())
+                    : "";
         }
-        return "Last move was successful (default reply, change this)";
+
+        return service.isMoveSuccessful()
+                ? String.format("Last move was successful: %s", service.getLatestMove())
+                : String.format("Last move was unsuccessful: %s", service.getLatestMove());
     }
 
     @Override
-    public void move(String move) {
-        //TODO this should trigger your move logic.
-        isNewGame = false;
-        System.out.println("Player tried to perform move: " + move);
+    public String getWinningState() {
+        if (service.isGameOver()) {
+            return String.format("Player %s has won!", service.getPlayerToMove().name());
+        }
+
+        if (service.isCheck(Player.WHITE) && service.isCheck(Player.BLACK)) {
+            return String.format("Player %s and Player %s are in CHECK position.",
+                    Player.WHITE.name(), Player.BLACK.name());
+        }
+
+        if (service.isCheck(Player.WHITE)) {
+            return String.format("Player %s king is in CHECK by %s.",
+                    Player.WHITE.name(), Player.BLACK.name());
+        }
+
+        if (service.isCheck(Player.BLACK)) {
+            return String.format("Player %s king is in CHECK by %s.",
+                    Player.BLACK.name(), Player.WHITE.name());
+        }
+
+        if (!service.isGameStarted()) {
+            return "Game hasn't begun";
+        }
+
+        return WinningState.PLAYING.name();
+    }
+
+    @Override
+    public void move(final String move) {
+        service.setLatestMove(move);
+
+        if (service.isGameOver()) {
+            System.out.println("TODO: GAME-OVER");
+            return;
+        }
+
+        if (service.isMoveInvalid(move)) {
+            System.out.println("TODO: INVALID-MOVE");
+            return;
+        }
+
+        if (service.move(move)) {
+            service.setMoveSuccessful(true);
+        }
+        else {
+            service.setMoveSuccessful(false);
+
+            System.out.println("TODO: UNSUCCESSFUL-MOVE");
+            return;
+        }
+
+        if (service.isGameOver()) {
+            System.out.println("TODO: GAME-OVER");
+            return;
+        }
+
+        service.updatePlayerToMove();
+
+        service.setGameStarted(true);
+        System.out.println("Player perform move: " + move);
     }
 }

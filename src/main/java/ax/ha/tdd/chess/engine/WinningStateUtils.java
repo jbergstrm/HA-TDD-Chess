@@ -34,6 +34,7 @@ public final class WinningStateUtils {
                     int dy = location.getY() + ints[1];
 
                     return dx >= 0 && dx < 8 && dy >= 0 && dy < 8
+                            && chessboard.getPieceAt(dx, dy) == null
                             && !ChessPieceMovingUtils.isThreatened(chessboard, new Square(dx, dy), player);
                 });
     }

@@ -44,7 +44,7 @@ public final class ChessPieceMovingUtils {
     public static boolean isDiagonalClear(final Chessboard chessboard, final Square destination, final Square location) {
 
         // Piece is not moving diagonal
-        if (Math.abs(location.getX() - destination.getX()) != Math.abs(location.getY()) - destination.getY()) {
+        if (Math.abs(location.getX() - destination.getX()) != Math.abs(location.getY() - destination.getY())) {
             return false;
         }
 
@@ -78,7 +78,7 @@ public final class ChessPieceMovingUtils {
             return false;
         }
 
-        final int[] range = king.getLocation().getX() == 4
+        final int[] range = rook.getLocation().getX() == 7
                 ? new int[]{5, 6} : new int[]{1, 2, 3};
 
         return Arrays.stream(range).noneMatch(x -> isThreatened(chessboard, new Square(x, king.getLocation().getY()), king.getPlayer()))

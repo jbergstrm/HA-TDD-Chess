@@ -18,6 +18,8 @@ public interface Game {
      */
     String getLastMoveResult();
 
+    String getWinningState();
+
     /**
      * Take a string representing the next move,
      * and apply it to the board. Do nothing if the move is illegal

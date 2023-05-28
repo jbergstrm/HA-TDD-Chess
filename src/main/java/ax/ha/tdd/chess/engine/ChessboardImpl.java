@@ -4,6 +4,12 @@ import ax.ha.tdd.chess.engine.pieces.ChessPiece;
 import ax.ha.tdd.chess.engine.pieces.ChessPieceBase;
 import ax.ha.tdd.chess.engine.pieces.ChessPieceStub;
 import ax.ha.tdd.chess.engine.pieces.PieceType;
+import ax.ha.tdd.chess.engine.pieces.impl.Bishop;
+import ax.ha.tdd.chess.engine.pieces.impl.King;
+import ax.ha.tdd.chess.engine.pieces.impl.Knight;
+import ax.ha.tdd.chess.engine.pieces.impl.Pawn;
+import ax.ha.tdd.chess.engine.pieces.impl.Queen;
+import ax.ha.tdd.chess.engine.pieces.impl.Rook;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -81,10 +87,21 @@ public class ChessboardImpl implements Chessboard {
     private ChessboardImpl withMirroredPiece(final PieceType pieceType,
                                              final List<Integer> xCoordinates, final int yCoordinate) {
         xCoordinates.forEach(xCoordinate -> {
-            addPiece(new ChessPieceStub(pieceType, Player.BLACK, new Square(xCoordinate, yCoordinate)));
-            addPiece(new ChessPieceStub(pieceType, Player.WHITE, new Square(xCoordinate, 7 - yCoordinate)));
+            addPiece(createPiece(pieceType, Player.BLACK, new Square(xCoordinate, yCoordinate)));
+            addPiece(createPiece(pieceType, Player.WHITE, new Square(xCoordinate, 7 - yCoordinate)));
         });
         return this;
+    }
+
+    private ChessPiece createPiece(final PieceType pieceType, final Player player, final Square location) {
+        return switch (pieceType) {
+            case PAWN -> new Pawn(player, location);
+            case ROOK -> new Rook(player, location);
+            case KNIGHT -> new Knight(player, location);
+            case BISHOP -> new Bishop(player, location);
+            case QUEEN -> new Queen(player, location);
+            case KING -> new King(player, location);
+        };
     }
 
     @Override

@@ -19,7 +19,8 @@
 </head>
 <body>
 <h2 class="hello-title" th:text="'TDD-Chess'"></h2>
-<p th:text="'Player to move: ' + ${player}"></p>
+<p th:text="'Player to move: ' + ${player.name()}"></p>
+<p th:text="'Game status: ' + ${winningState}"></p>
 <p th:text="'Last move result: ' + (${lastMoveResult}? ${lastMoveResult} : '')"></p>
 <table class="chess-board" >
     <tbody>

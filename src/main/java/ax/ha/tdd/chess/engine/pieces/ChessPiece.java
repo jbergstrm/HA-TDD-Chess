@@ -22,6 +22,8 @@ public interface ChessPiece {
 
     Square getLocation();
 
+    void setLocation(Square location);
+
     /**
      * True if piece has been moved
      */

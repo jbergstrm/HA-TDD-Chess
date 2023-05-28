@@ -40,6 +40,11 @@ public abstract class ChessPieceBase implements ChessPiece {
     }
 
     @Override
+    public void setLocation(final Square location) {
+        this.location = location;
+    }
+
+    @Override
     public boolean isMoved() {
         return isMoved;
     }
